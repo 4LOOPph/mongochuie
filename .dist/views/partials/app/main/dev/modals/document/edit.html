@@ -1,0 +1,40 @@
+<div>
+        <div class="modal-header">
+            <h3 ng-if="item.id">{{ 'EDIT_DOCUMENT' | translate }}<button type="button" class="close" aria-hidden="true" ng-click="cancel()">&times;</button></h3>
+            <h3 ng-if="!item.id">{{ 'ADD_DOCUMENT' | translate }}<button type="button" class="close" aria-hidden="true" ng-click="cancel()">&times;</button></h3>
+
+        </div>
+        <div class="modal-body" style="padding:10px 0">
+            <ul class="nav nav-tabs" style="padding-left:10px">
+                <li class="active"><a href="#">{{ 'DOCUMENT' | translate }}</a></li>
+            </ul>
+        </div>
+
+        <div class="modal-body" style="padding:0">
+            <textarea id="editModal" ng-model="item.document" lx-codemirror lx-theme="item.codeTheme[item.selectedQueryParam]"></textarea>
+        </div>
+        <div class="modal-body" style="padding:20px 10px">
+            <div class="alert alert-danger alert-dismissable" ng-show="item.error" ng-repeat="error in item.error">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="item.error.splice($index, 1)">&times;</button>
+ 	            {{ error }}
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <a href="" ng-click="showSaveOptions = !showSaveOptions">{{ 'SAVE_OPTIONS' | translate }}</a>
+                </div>
+            </div>
+
+            <div class="bs-callout bs-callout-info" style="margin-top: 20px" ng-show="showSaveOptions">
+                <div class="checkbox non-selectable">
+                    <label>
+                        <input type="checkbox" name="secureSave" ng-model="item.setIsEnabled" bbc-checkbox><span style="margin-left: 10px">{{ 'SAVE_WITH_$SET' | translate }}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default btn-equal btn-e2e-cancel" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+            <button class="btn btn-primary btn-equal btn-e2e-save" ng-click="ok()">{{ 'SAVE' | translate }}</button>
+        </div>
+    </div>

@@ -1,0 +1,99 @@
+<div class="modal-header">
+    <h3>{{ 'NEW_COLLECTION' | translate }}<br>
+        <small>{{ model.displayName }}</small>
+    </h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" name="form" novalidate ng-submit="form.$valid && ok()">
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="name">{{ 'NAME' | translate }}*</label>
+            <div class="col-md-8">
+                <input type="text" id="name" class="form-control" ng-model="model.newCollection.name" name="name" maxlength="128" required lx-focus="true">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-8 col-md-offset-4">
+                <a href="" ng-click="showSettings = !showSettings">{{ 'SETTINGS' | translate }}</a>
+            </div>
+        </div>
+
+        <div ng-show="showSettings">
+            <hr>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="grid">{{ 'IS_GRIDFS_COLLECTION' | translate }}</label>
+                <div class="col-md-8">
+                    <div class="checkbox non-selectable">
+                        <label>
+                            <input type="checkbox" id="grid" name="grid" ng-model="model.newCollection.isGridFSCollection" bbc-checkbox>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="capped">{{ 'IS_CAPPED' | translate }}</label>
+                <div class="col-md-8">
+                    <div class="checkbox non-selectable">
+                        <label>
+                            <input type="checkbox" id="capped" name="capped" ng-model="model.newCollection.capped" bbc-checkbox>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="autoIndexId">{{ 'IS_AUTOINDEX' | translate }}</label>
+                <div class="col-md-8">
+                    <div class="checkbox non-selectable">
+                        <label>
+                            <input type="checkbox" id="autoIndexId" name="autoIndexId" ng-model="model.newCollection.autoIndexId" bbc-checkbox>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="max">{{ 'MAX_DOCUMENTS' | translate }}</label>
+                <div class="col-md-2">
+                    <input type="number" ng-disabled="!model.newCollection.capped" class="form-control" ng-model="model.newCollection.max" name="max" id="max" min="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="size">{{ 'SIZE' | translate }}</label>
+                <div class="col-md-2">
+                    <input type="number" class="form-control" ng-model="model.newCollection.size" name="size" id="size" min="0">
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="model.mongoVersion === '2.6.'">
+                <label class="col-md-4 control-label" for="size">usePowerOf2Sizes</label>
+                <div class="col-md-8">
+                    <div class="checkbox non-selectable">
+                        <label>
+                            <input type="checkbox" id="usePowerOf2Sizes" name="usePowerOf2Sizes" ng-model="model.newCollection.usePowerOf2Sizes" bbc-checkbox>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" ng-if="model.error">
+            <hr>
+            <div class="col-md-12" style="padding:0">
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="model.error = null">&times;</button>
+                    {{ model.error }}
+                </div>
+            </div>
+        </div>
+
+        <input type="submit" class="hidden-input">
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default btn-equal" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+    <button class="btn btn-primary btn-equal btn-e2e-collection-save" ng-click="ok()" ng-disabled="form.$invalid">{{ 'SAVE' | translate }}</button>
+</div>

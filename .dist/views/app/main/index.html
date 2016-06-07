@@ -1,0 +1,97 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns="http://www.w3.org/1999/html"> <!--<![endif]-->
+<head>
+    <title>Mongo Management Studio</title>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Litixsoft GmbH">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!--<link rel="shortcut icon" href="assets/images/5d6a8232.product_logo.png">-->
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/images/logo/99c04796.apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/images/logo/f8ac18be.apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/images/logo/a932bfe9.apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/images/logo/b10e9606.apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/images/logo/7d1bb14f.apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/images/logo/bf8b8661.apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/images/logo/4d9d96f8.apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/images/logo/b96996f6.apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="assets/images/logo/9060aa90.favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="assets/images/logo/e0418421.favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="assets/images/logo/18e81337.favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="assets/images/logo/1f9962cd.favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="assets/images/logo/21e1a414.favicon-32x32.png" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="msapplication-TileImage" content="assets/images/logo/b10e9606.mstile-144x144.png">
+
+    <link rel="stylesheet" href="styles/main/f02c1304.vendor.css">
+
+    <link rel="stylesheet" href="styles/main/b97b5545.main.css">
+</head>
+<body ng-app="main" translate-cloak ng-class="{lxMobileDevice: checkAgent}">
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="change-screen" ng-class="{'change-screen-loading': isLoading}">
+        <div class="change-screen-content">
+            <div class="three-quarters"></div><br>
+            <span>{{ 'LOADING' | translate }}</span>
+            <span ng-if="progressInfo.isActive">
+                <p ng-if="progressInfo.unit === 'MB'">{{ progressInfo.type | translate }}: {{ progressInfo.value / 1024 / 1024 | number:2 }} {{ progressInfo.unit }} / {{ progressInfo.max / 1024 / 1024 | number:2 }} {{ progressInfo.unit }}</p>
+                <p ng-if="progressInfo.unit !== 'MB'">{{ progressInfo.type | translate }}: {{ progressInfo.value}} {{ 'OF' | translate }} {{ progressInfo.max}} {{ progressInfo.unit | translate}}</p>
+            </span>
+        </div>
+    </div>
+
+    <div id="singlepageFrame" class="ng-cloak">
+        <div class="layout-content">
+            <bbc-alert service="bbcAlert"></bbc-alert>
+
+            <div class="view-container example-animate-container">
+                <div ng-view class="view-example"></div>
+            </div>
+
+            <div class="top-menu">
+                <div class="mobile-btn pull-left">
+                    <img src="assets/images/mobile/de5aae0f.mobile_menu_btn_2.png" ng-click="openConnectionMenu = !openConnectionMenu">
+                </div>
+
+                <div class="logo-area non-selectable" ng-class="{'menu-closed':openConnectionMenu}">
+                    <img src="assets/images/c209bbe4.logo_260x260.png" width="40px;" style="margin-top: 5px" class="pull-left">
+                    <span class="trademark-area"><i>MONGO</i> MANAGEMENT STUDIO<sup>1.9.4</sup></span>
+                </div>
+
+                <div class="login-area pull-right" ng-include="'common/popup_login/popup_login.html'" ng-if="rightSystem"></div>
+
+                <ul class="top-menu-nav pull-right" ng-if="navigation[0] && navigation.length > 0 && rightSystem">
+                    <li><a ng-href="/dev" ng-show="navigation[0].children[0]">{{ navigation[0].children[0].title | translate }}</a></li>
+                    <li ng-if="navigation[0].children[1]"><a ng-href="/admin">{{ navigation[0].children[1].title | translate }}</a></li>
+                    <li ng-if="navigation[1] && rightSystem"><a ng-href="/admin" target="_self" ng-show="navigation[1]">{{ navigation[1].title | translate }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--[if lt IE 9]>
+    <script src="assets/bower_components/es5-shim/es5-shim.js"></script>
+    <script src="assets/bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="scripts/main/a57a0413.vendor.js"></script>
+
+    <script src="scripts/main/a556187d.scripts.js"></script>
+</body>
+</html>

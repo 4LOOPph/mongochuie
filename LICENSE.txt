@@ -1,0 +1,39 @@
+END-USER LICENSE AGREEMENT for Mongo Management Studio Community Edition Windows/ Mac/ Linux (further titled "Software")
+
+§ 1 Subject of the contract
+End-User License Agreement (EULA) is a legally valid contract between you (either an individual natural person or a single legal entity) and Litixsoft GmbH with regard to the provided copyrighted software and possibly attached software components, media, printed materials and online or elektronic documentation. Installing, copying, or otherwise using this software indicates your acknowledgement to have read this license and agree to be bound by and apply with its terms and conditions. This license agreement constitutes the entire agreement between the parties with respect to the subject matter contained herein, and supersedes all previous agreements, representations, warranties, statements, negotiations, understandings and undertakings, wether verbal or written, pertaining to such subject matter. If you do not agree to the terms of this EULA, do not install or use this software.
+
+§ 2 Copyright
+The licensee achknowledges that the software is a protectable computerprogram in terms of § 2 Abs. 1 Nr. 1, § 69 a UrhG and the licensor author in terms of §§ 7, 69 b UrhG.
+
+§ 3 Extend of use
+The Licensor grants the Licensee the sole, non-exclusive and personal right to install and use the software within the agreed scope (hereinafter referred to as "license") on one or more computers in its possession, aslong the software is used just on one computer at a time by the licensee. The software is "in use" as soon as it is loaded into the working storage (RAM) or copied onto a permanent storage (e.G. Harddrive, CD-ROM or other storage systems) of a computer.
+
+§ 4 Special limitations
+The license holder is forbidden to change, translate, reverse-engineer, decompile, or disassemble the software or the pertinent material or to produce works derived from the software, unless this is explicitly permitted by the Licensor in written form. The Buyer may not claim the surrender of the source code of the licensed software.
+
+§ 5 Ownership of rigths
+Besides the rights to use the Software as defined by this license agreement you receive no further rights concerning this Software. In particular, the licensor reserves and retains all publishing, reproduction, processing, editing and utilization rights to the Software.
+
+§ 6 Duplication
+The software is copyrighted. The copyright additionally covers the program code, documentation, appearance, structure and organisation of the program, files, program name, logos and other forms of representation within the software. All rights are reserved and protected by international copyright laws. The licensee is allowed to make a single back-up copy of the software for backup reasons only. The licensee has to make sure the back-up copy carries the licensor's copyright notice. A copyright reference or symbol existing in the Software and the registration numbers recorded on it may not be removed. It is expressly prohibited to copy, or reproduce in any other manner, either wholly or partly, the Software in original or modified form or merged with other software or incorporated in other software.
+
+§ 7 Transfer of user rights
+ The user rights to this software can only be transferred to a third party with explicit previous written consent from Litixsoft GmbH and under the conditions of this contract. Donating, renting, leasing or lending the Software to third parties are expressly prohibited.
+
+§ 8 Duration of the contract
+This agreement is valid for an unlimited period, The right to use the software expires - also without notice of cancellation - when the licensee infringes a term of this agreement. Upon conclusion of the right of use, licensee is obliged to destroy the original data carrier as well as old copies of the product including any modified samples and documentation.  Upon request of the licenser the licensee will confirm the deletion or destruction in written proof.
+
+§ 9 Modifications and updates
+The licensor is entitled to update the software at his own discretion and to develop new or improved versions. The licensee has no right to the implementation of a change or update.
+
+§ 10 Liability
+a) Based on the current state of technology, the appearance of programm errors in software cannot be entirely excluded. The subject of the contract is therefore only software, which is basically useful as defined by the program description and operating instructions.
+b) For the reasons stated under lit. a), the licensor does not accept liability for the flawlessness of the software. In particular, the licensor does not accept any warranty claims, that the software is sufficient to meet the requirements and purpose of the licensee or that it functions with other products that they choose. The responsibility for the correct selection and the consequences of the use of the software aswell as the intention therewith or resulting outcome is carried by the licensee. The same shall apply to the written material accompanying the Software. If the software as stated under lit a) is in principle useless, the customer has the right to withdraw from the contract. The licensor has the same right as the production of usable software as stated under lit. a) is not possible with due effort.
+c) The Licensor does not assume any responsibility for damages incurred due to an error in the Software Product or inability to use the software (including, without limitation, damages for lost profit or loss of data, the loss as a consequence of an interruption of operations or other financial losses), even if the possibility of such damages was made known to the licensor. This shall not apply if liability is mandatory due to intent or gross negligence.
+
+§ 11 Place of jurisdiction
+This agreement is governed by the laws of the Federal Republic of Germany. As only place of jurisdiction for all disputes arising directly or indirectly from the contractual relationship shall be, to the extent permitted by law, Leipzig in Germany.
+
+§ 12 Final provisions
+If individual provisions of these terms and conditions are or become invalid, the remaining agreements shall not be affected as a result. The invalid provision shall be replaced with another valid provision which most closely reflects the content and (financial) goals of the invalid provision.

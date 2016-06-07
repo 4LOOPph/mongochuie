@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h3>{{ 'ADD_DB' | translate }}<br>
+        <small>{{ model.serverName }}</small>
+    </h3>
+</div>
+
+<div class="modal-body">
+    <form name="form" class="form-horizontal" ng-submit="ok()" novalidate>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="name">{{ 'DB_NAME' | translate }}</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="name" ng-model="model.dbName" name="name" maxlength="60" required lx-focus="true">
+            </div>
+        </div>
+
+        <div class="row" ng-if="model.error">
+            <hr>
+            <div class="col-md-12" style="padding:0">
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="model.error = null">&times;</button>
+                    {{ model.error }}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default btn-equal" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+    <button class="btn btn-primary btn-equal btn-e2e-database-save" ng-click="ok()" ng-disabled="form.$invalid">{{ 'SAVE' | translate }}</button>
+</div>

@@ -1,0 +1,154 @@
+<div class="modal-header">
+    <h3 ng-if="!isConnectionToAddOrEdit">{{ 'SERVER_CONNECTIONS' | translate }}</h3>
+    <h3 ng-if="isConnectionToAddOrEdit">{{ 'SERVER_CONNECTION_NEW_EDIT' | translate }}</h3>
+</div>
+<div class="modal-body">
+    <form name="form" class="form-horizontal" ng-submit="form.$valid && ok()" novalidate>
+        <div class="form-group" ng-if="item.savedConnections.length > 0 && !isConnectionToAddOrEdit">
+            <div class="col-lg-12 table-responsive">
+                <table class="table table-hover table-blank">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th ng-click="sortField = 'name'; sortOption=!sortOption" style="cursor: pointer">{{ 'NAME' | translate }}</th>
+                            <th ng-click="sortField = 'connectionString'; sortOption=!sortOption" style="cursor: pointer">{{ 'CONNECTION' | translate }}</th>
+                            <th>{{ 'IS_DEFAULT_CONNECTION' | translate }}</th>
+                            <th>{{ 'LOGIN_DATABASE' | translate }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="connection in item.savedConnections | orderBy:sortField:sortOption track by $index">
+                            <td ng-init="connection.color = connection.color || '#ff4800'" style="width: 40px; padding-right: 0">
+                                <i colorpicker="hex" colorpicker-position="right" ng-model="connection.color" class="glyphicon glyphicon-tasks" ng-style="{color: connection.color}"></i>
+                            </td>
+                            <td ng-click="connectToExistingServer(connection)" style="cursor: pointer">{{ connection.name }}</td>
+                            <td ng-click="connectToExistingServer(connection)" style="cursor: pointer">
+                                <span style="margin-right:2px" ng-if="!connection.replicaSetName">{{ connection.connectionString }}</span>
+                                <span style="margin-right:2px" ng-if="connection.replicaSetName" title="{{ connection.connectionString }}">{{ 'REPLICA_SET' | translate }}: "{{ connection.replicaSetName }}"</span>
+                                <span>{{ connection.port }}</span>
+                            </td>
+                            <td ng-click="connectToExistingServer(connection)" style="cursor: pointer">
+                                <input type="checkbox" style="margin-left: 0" ng-model="connection.is_default_connection" ng-disabled="true" bbc-checkbox>
+                            </td>
+                            <td ng-click="connectToExistingServer(connection)" style="cursor: pointer">{{ connection.login_database }}</td>
+                            <td>
+                                <a href="" title="{{ 'EDIT_CONNECTION' | translate }}" ng-click="openFormToEditOrAddConnection(connection, false)" style="margin-right: 3px"><i class="glyphicon glyphicon-edit" style="color: #444"></i></a>
+                                <a href="" title="{{ 'REMOVE_CONNECTION' | translate }}" ng-click="deleteSelectedConnection(connection)"><i class="glyphicon glyphicon-trash" style="color: #444"></i></a>
+                                <a href="" title="{{ 'CLONE_CONNECTION' | translate }}" ng-click="cloneSelectedConnection(connection)"><i class="glyphicon glyphicon-random" style="color: #444"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary btn-e2e-add-connection" ng-click="openFormToEditOrAddConnection({}, true)" ng-show="!isConnectionToAddOrEdit && item.savedConnections.length !== 0">{{ 'CONNECTION_NEW' | translate }}</button>
+        </div>
+        <div ng-if="!isConnectionToAddOrEdit && item.savedConnections.length === 0" ng-init="openFormToEditOrAddConnection({}, true)"></div>
+
+        <div ng-if="item.savedConnections.length === 0 || isConnectionToAddOrEdit">
+            <div class="form-group">
+                <hr ng-show="item.savedConnections.length !== 0">
+                <label class="col-lg-3 control-label" for="name">
+                    {{ 'NAME' | translate }}
+                </label>
+
+                <div class="col-lg-9">
+                    <input type="text" class="form-control" id="name" ng-model="lxForm.model.name" name="name" maxlength="500">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label">
+                    {{ 'CONNECTION_STRING' | translate }}*
+                </label>
+
+                <div class="col-lg-9">
+                    <input type="text" class="form-control" ng-model="lxForm.model.connectionString" name="connectionString" placeholder="[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]]" maxlength="500" required lx-focus="true">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label" for="login" title="{{ 'USERNAME_CONNECT_TEXT' | translate }}">{{ 'USERNAME' | translate }}</label>
+                <div class="col-lg-9">
+                    <input type="text" class="form-control" id="login" ng-model="lxForm.model.login" name="login" maxlength="100" placeholder="{{ 'USERNAME_CONNECT_TEXT' | translate }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label" for="password" title="{{ 'PASSWORD_CONNECT_TEXT' | translate }}">{{ 'PASSWORD' | translate }}</label>
+                <div class="col-lg-9">
+                    <input type="password" class="form-control" id="password" ng-model="lxForm.model.password" name="password" maxlength="200" placeholder="{{ 'PASSWORD_CONNECT_TEXT' | translate }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label" for="login_database" title="{{ 'LOGIN_DATABASE_TEXT' | translate }}">{{ 'LOGIN_DATABASE' | translate }}</label>
+                <div class="col-lg-9">
+                    <input type="text" class="form-control" id="login_database" ng-model="lxForm.model.login_database" name="login_database" maxlength="500" placeholder="{{ 'LOGIN_DATABASE_TEXT' | translate }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label" for="dbName" title="{{ 'DESTINATION_DATABASE_TEXT' | translate }}">{{ 'DESTINATION_DATABASE' | translate }}</label>
+                <div class="col-lg-9">
+                    <input type="text" class="form-control" id="dbName" ng-model="lxForm.model.dbName" name="dbName" maxlength="500" placeholder="{{ 'DESTINATION_DATABASE_TEXT' | translate }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label" for="is_default_connection">{{ 'IS_DEFAULT_CONNECTION' | translate }}</label>
+                <div class="col-lg-9">
+                    <div class="checkbox non-selectable">
+                        <label>
+                            <input type="checkbox" id="is_default_connection" name="is_default_connection" ng-model="lxForm.model.is_default_connection" bbc-checkbox>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label" for="slave_ok">Slave ok
+                    <i popover-placement="bottom" popover-title="Slave ok" popover="{{ 'INFO_SLAVE_OK' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                    </i>
+                </label>
+                <div class="col-lg-3">
+                    <div class="checkbox non-selectable">
+                        <label>
+                           <input type="checkbox" id="slave_ok" name="slave_ok" ng-model="lxForm.model.slave_ok" bbc-checkbox>
+                         </label>
+                     </div>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 control-label" style="padding-top: 0">
+                    {{ 'COLOR' | translate }}
+                </label>
+
+                <div class="col-lg-9">
+                    <i colorpicker="hex" colorpicker-position="right" ng-model="lxForm.model.color" class="glyphicon glyphicon-tasks" ng-style="{color: lxForm.model.color}"></i>
+                </div>
+            </div>
+        </div>
+
+        <input type="submit" class="hidden-input">
+    </form>
+
+    <div class="row" ng-if="item.error">
+        <hr>
+        <div class="col-md-12" style="padding:0">
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="item.error = null">&times;</button>
+                {{ item.error }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default btn-equal" ng-click="cancel()">{{ 'CLOSE_MODAL' | translate }}</button>
+    <button class="btn btn-default btn-equal" ng-click="closeForm()" ng-if="isConnectionToAddOrEdit">{{ 'CANCEL' | translate }}</button>
+    <button class="btn btn-primary btn-equal btn-e2e-save-connect" ng-click="ok()" ng-if="(isConnectionToAddOrEdit || item.savedConnections.length === 0) && isNewConnection" ng-disabled="form.$invalid">{{ 'SAVE_AND_CONNECT' | translate }}</button>
+    <button class="btn btn-primary btn-equal" ng-click="ok()" ng-if="!isNewConnection && isConnectionToAddOrEdit" ng-disabled="lxForm.isUnchanged()">{{ 'SAVE' | translate }}</button>
+</div>

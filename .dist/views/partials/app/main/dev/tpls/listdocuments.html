@@ -1,0 +1,18 @@
+<ul style="list-style: none;margin:10px 0 10px 0;padding:0 0 0 15px">
+    <li style="list-style: none; margin-bottom: 5px" ng-repeat="document in tab.documents.listDocuments track by $index">
+        <nobr>
+            <a href="" ng-click="document.isExpanded = !document.isExpanded" style="text-decoration: none;margin-right:10px" ng-if="document.isExpandable">
+                <i title="{{ 'OPEN_DOCUMENT' | translate }}" ng-show="!document.isExpanded" class="glyphicon glyphicon-chevron-right" style="color: #444"></i>
+                <i title="{{ 'CLOSE_DOCUMENT' | translate }}" ng-show="document.isExpanded" class="glyphicon glyphicon-chevron-down" style="color: #444"></i>
+            </a>
+            <a href="" title="{{ 'DELETE_DOCUMENT' | translate }}" ng-click="deleteSelectedDocument(document.id, tab)" ng-if="tab.isSelectedQueryParam === 'find'" style="margin-right: 3px"><i class="glyphicon glyphicon-trash" style="color: #666"></i></a>
+            <a href="" title="{{ 'EDIT_DOCUMENT' | translate }}" ng-click="openModalToEdit(tab.documents.textDocuments[$index], tab)" ng-if="tab.isSelectedQueryParam === 'find'" style="margin-right: 3px"><i class="glyphicon glyphicon-edit" style="color: #666"></i></a>
+            <a href="" title="{{ 'DOWNLOAD_FILE' | translate }}" ng-click="downloadFile(document.id, tab)" ng-if="tab.selectedQueryParam === 'find' && tab.isGridFSCollection" style="margin-right: 3px"><i class="glyphicon glyphicon-save" style="color: #666"></i></a>
+            <span>{{ document.documentAsJSON }}</span>
+        </nobr>
+
+        <div ng-if="document.isExpanded">
+            <div style="margin-left: 30px; width: 1000px; list-style: none" ng-repeat="prop in document.properties" ng-include="'app/main/dev/tpls/properties.html'"></div>
+        </div>
+    </li>
+</ul>

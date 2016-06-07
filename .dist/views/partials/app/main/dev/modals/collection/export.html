@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h3>{{ 'EXPORT_COLLECTION_TEXT' | translate }} "{{ collection.collectionName }}"<br>
+        <small>{{ collection.displayName }}</small>
+    </h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" name="form" novalidate>
+        <div class="form-group">
+            <div class="col-md-9 col-md-offset-3">
+                <bbc-radio ng-disabled="collection.selectedQueryParam !== 'find'" ng-model="collection.exportType" value="currentQuery" label="{{ 'EXPORT_CURRENT_QUERY' | translate }} ({{ collection.queryToDisplay }})"></bbc-radio>
+                <div ng-if="collection.selectedQueryParam !== 'find'" class="alert alert-warning" style="margin-left: 20px; margin-bottom: 0">{{ 'EXPORT_INFO_QUERY_SELECTION' | translate }}</div>
+                <br>
+                <bbc-radio ng-disabled="collection.selectedQueryParam !== 'find'" ng-model="collection.exportType" value="currentView" label="{{ 'EXPORT_CURRENT_VIEW' | translate }} ({{ collection.queryToDisplayWithPager }})"></bbc-radio>
+                <br>
+                <bbc-radio ng-model="collection.exportType" value="all" label="{{ 'EXPORT_ALL' | translate }}"></bbc-radio>
+            </div>
+        </div>
+    </form>
+
+    <div class="row" ng-if="collection.error">
+        <hr>
+        <div class="col-md-12" style="padding:0">
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="collection.error = null">&times;</button>
+                {{ collection.error }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default btn-equal" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+    <button class="btn btn-primary btn-equal" ng-click="ok()" ng-disabled="form.$invalid">{{ 'EXPORT' | translate }}</button>
+</div>

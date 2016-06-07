@@ -1,0 +1,127 @@
+<div class="modal-header">
+    <h3 ng-if="!collection.isBasedOnDbLevel">{{ title }}<br><small>{{ collection.connection.displayName }}</small></h3>
+    <h3 ng-if="collection.isBasedOnDbLevel">{{ 'IMPORT_COLLECTION' | translate }}<br><small>{{ collection.connection.displayName }}</small></h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-3 control-label" style="padding-top: 0">{{ 'SOURCE' | translate }}</label>
+            <div class="col-md-9">
+                <bbc-radio ng-model="collection.selectedOption" value="fileUpload" label="{{ 'IMPORT_FROM_FILE' | translate }}"></bbc-radio>
+                <br>
+                <bbc-radio ng-model="collection.selectedOption" value="textDocuments" label="{{ 'IMPORT_FROM_TEXT' | translate }}"></bbc-radio>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="collection.isBasedOnDbLevel" style="margin-bottom: 25px">
+            <label class="col-md-3 control-label" for="collectionName">{{ 'IMPORT_DESTINATION_COLLECTION' | translate }}*</label>
+            <div class="col-md-9">
+                <input type="text" id="collectionName" class="form-control" ng-model="collection.collectionName" name="collectionName" maxlength="128" required lx-focus="true">
+            </div>
+        </div>
+
+        <div class="alert alert-danger alert-dismissable" ng-show="collection.collectionNameError" style="margin-left: 20px">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="collection.collectionNameError = null">&times;</button>
+            <span>{{ collection.collectionNameError }}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label" style="padding-top: 0">{{ 'IMPORT_MODE' | translate }}</label>
+            <div class="col-md-9">
+                <bbc-radio ng-model="collection.uploadOptionToInsert" value="replace" label="{{ 'IMPORT_REPLACE' | translate }}" ng-disabled="collection.db.collections.indexOf(collection.collectionName) === -1"></bbc-radio>
+                <br>
+                <bbc-radio ng-model="collection.uploadOptionToInsert" value="merge" label="{{ 'IMPORT_MERGE' | translate }}"></bbc-radio>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px">
+            <label class="col-md-3 control-label" for="dropDups">{{ 'IMPORT_DROP_DUPS' | translate }}</label>
+            <div class="col-md-9">
+                <div class="checkbox non-selectable" style="margin-top: 0">
+                    <label>
+                        <input type="checkbox" id="dropDups" name="dropDups" ng-model="collection.isDropDuplicateKeys" bbc-checkbox>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="collection.selectedOption == 'fileUpload'">
+            <div class="dropzone" file-dropzone="" fileid="item.id" fileitems="fileitems" handle="addFirstFile(fileitems)" style="border: 2px dashed #bbb; margin: 10px; padding: 25px; text-align: center" ng-show="files.length != 1">
+                <h3>{{ 'REPLACE_FILE_SPOT' | translate }}</h3>
+            </div>
+
+            <div ng-show="files.length != 1" style="margin: 4px; padding: 4px; text-align: center">
+                <input type="file" onchange="angular.element(this).scope().setFiles(this)">
+            </div>
+
+            <table class="table table-hover" ng-show="files.length > 0">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th style="text-align: left">{{ 'FILENAME' | translate }}</th>
+                    <!--<th style="text-align: center;">{{ 'FILETYPE' | translate }}</th>-->
+                    <th style="text-align: right">{{ 'FILESIZE' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="file in files" ng-class="{'import-too-big': file.size > 104800000 && collection.uploadOptionToInsert !== 'merge'}">
+                    <td>
+                        <a href="" ng-click="removeFileFromList($index)" title="{{ 'DELETE_DOCUMENT' | translate }}"><i class="glyphicon glyphicon-trash" style="color: #888"></i></a>
+                    </td>
+                    <td style="text-align: left">
+                        <nobr>
+                            {{file.webkitRelativePath || file.name}}
+                        </nobr>
+                    </td>
+                    <!--<td style="text-align: center;">-->
+                        <!--<nobr>-->
+                            <!--{{file.type}}-->
+                        <!--</nobr>-->
+                    <!--</td>-->
+                    <td style="text-align: right">
+                        <nobr>
+                        <span ng-switch="file.size > 1024*1024">
+                            <span ng-switch-when="true">{{file.size / 1024 / 1024 | number:2}} MB</span>
+                            <span ng-switch-default>{{file.size / 1024 | number:2}} kB</span>
+                        </span>
+                        </nobr>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert alert-danger alert-dismissable" ng-show="collection.emptyFileError" style="margin-left: 20px">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="collection.emptyFileError = null">&times;</button>
+            <span>{{ collection.emptyFileError }}</span>
+        </div>
+
+        <div ng-if="collection.selectedOption == 'textDocuments'">
+            <div class="form-group">
+                <label class="col-md-3 control-label">{{ 'TEXT_INPUT' | translate }}</label>
+                <div class="col-md-9">
+                    <textarea ng-model="collection.textDocuments" id="textDocuments" lx-codemirror required></textarea>
+                </div>
+            </div>
+
+            <div class="alert alert-danger alert-dismissable" ng-show="collection.textDocumentsError" style="margin-top: 15px">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="collection.textDocumentsError = null">&times;</button>
+                <span>{{ collection.textDocumentsError }}</span>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <div class="row import-too-big" ng-if="counterFileSizeIncorrect > 0 && collection.uploadOptionToInsert !== 'merge'" style="text-align: left; margin-bottom: 10px; padding-left: 15px">
+       File size is too large for replacement. Please use drop collection manually and import file with appending.
+    </div>
+
+    <div class="row">
+        <span class="col-md-8" style="text-align: left">{{ 'INFO_IMPORT' | translate }}</span>
+        <div class="col-md-4">
+            <button class="btn btn-default btn-equal" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+            <button class="btn btn-primary btn-equal" ng-click="ok()" ng-disabled="form.$invalid || (counterFileSizeIncorrect > 0 && collection.uploadOptionToInsert !== 'merge')">{{ 'IMPORT' | translate }}</button>
+        </div>
+    </div>
+</div>

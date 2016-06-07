@@ -1,0 +1,13 @@
+<ul style="list-style: none;margin:10px 0 10px 0;padding:0 10px">
+    <li style="list-style: none; margin-bottom: 5px" ng-repeat="document in tab.documents.textDocuments">
+        <div class="contentTextDocument">
+            <div style="position: relative">
+                <div class="btn-group" style="position: absolute; top: 0; right: 0" ng-if="tab.isSelectedQueryParam == 'find' && !tab.isSlave">
+                    <button class="btn btn-default" title="{{ 'EDIT_DOCUMENT' | translate }}" ng-click="openModalToEdit(document, tab)">{{ 'EDIT' | translate }}</button>
+                    <button class="btn btn-danger" title="{{ 'DELETE_DOCUMENT' | translate }}" ng-click="deleteSelectedDocument(document.id, tab)">{{ 'DROP' | translate }}</button>
+                </div>
+                <pre class="text-content-pre">{{ document.data }}</pre>
+            </div>
+        </div>
+    </li>
+</ul>

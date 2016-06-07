@@ -1,0 +1,207 @@
+<form class="form-horizontal" name="form" novalidate>
+<div class="modal-header">
+    <h3>{{ 'EDIT_INDEXES'| translate }} ({{ 'COLLECTION' | translate }}: {{ indexData.collectionName }})<br>
+        <small>{{ indexData.displayName }}</small>
+    </h3>
+</div>
+
+<div class="modal-body">
+        <!--<div class="form-group">-->
+        <div class="col-lg-12 table-responsive">
+            <table class="table table-hover table-blank">
+                <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Unique</th>
+                    <th>Drop Duplicates</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="index in indexData.indexes">
+                    <td>
+                        <div>
+                            <span class="ellipsis">{{ index.name }}</span>
+                        </div>
+                    </td>
+                    <td><input type="checkbox" name="unique" ng-model="index.unique" bbc-checkbox ng-disabled="true" ng-show="index.name != '_id_'" style="margin-left: 0"></td>
+                    <td><input type="checkbox" name="duplicates" ng-model="index.dropDups" bbc-checkbox ng-disabled="true" ng-show="index.name != '_id_'" style="margin-left: 0"></td>
+                    <td>
+                        <a href="" title="{{ 'EDIT_INDEXES' | translate }}" ng-click="openFormToEdit(index)" ng-show="index.name != '_id_'" style="margin-right: 3px"><i class="glyphicon glyphicon-edit" style="color: #444"></i></a>
+                        <a href="" title="{{ 'DELETE_INDEX' | translate }}" ng-click="dropIndexOfCollection(index)" ng-show="index.name != '_id_'"><i class="glyphicon glyphicon-trash" style="color: #444"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button ng-show="!showElementsToEdit" class="btn btn-primary" ng-click="openFormToEdit({newIndex: true})">{{ 'NEW_INDEX' | translate }}</button>
+        <button ng-show="!showElementsToEdit" class="btn btn-default btn-equal" ng-click="dropAllIndexesOfCollection()">{{ 'DELETE_ALL_INDEXES' | translate }}</button>
+
+        <div class="row" ng-if="showElementsToEdit">
+            <div class="col-md-12">
+
+                <hr>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Key</label>
+                    <div class="col-md-9">
+                        <!--<div class="panel-body" id="codeContainer">-->
+                            <textarea ng-model="lxForm.model.keyString" id="keyString" lx-codemirror required id="codeContainer"></textarea>
+                        <!--</div>-->
+                    </div>
+                </div>
+
+                <div class="alert alert-danger alert-dismissable" ng-show="lxForm.model.$keyError" style="margin-left: 20px">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="lxForm.model.$keyError = null">&times;</button>
+                    <span>{{ 'ERROR_PARSE' | translate }}&nbsp;("{{ lxForm.model.$keyError }}")</span>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <a href="" ng-click="showSettings = !showSettings">{{ 'SETTINGS' | translate }}&nbsp;(optional)</a>
+                    </div>
+                </div>
+
+
+                <div ng-show="showSettings">
+                    <hr>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">{{ 'NAME' | translate }}</label>
+                        <div class="col-md-9">
+                            <label>
+                                <input type="text" class="form-control" ng-model="lxForm.model.name" name="name" maxlength="125">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="unique">Unique&nbsp;
+                            <i popover-placement="bottom" popover-title="Unique" popover="{{ 'INFO_UNIQUE' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                            </i>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="checkbox non-selectable">
+                                <label>
+                                    <input type="checkbox" id="unique" name="unique" ng-model="lxForm.model.unique" bbc-checkbox>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="dropDups">Drop Duplicates&nbsp;
+                            <i popover-placement="bottom" popover-title="Drop Duplicates" popover="{{ 'INFO_DROP_DUPLICATES' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                            </i>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="checkbox non-selectable">
+                                <label>
+                                    <input ng-disabled="!lxForm.model.unique" type="checkbox" id="dropDups" name="dropDups" ng-model="lxForm.model.dropDups" bbc-checkbox>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="sparse">Sparse&nbsp;
+                            <i popover-placement="bottom" popover-title="Sparse" popover="{{ 'INFO_SPARSE' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                            </i>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="checkbox non-selectable">
+                                <label>
+                                    <input type="checkbox" id="sparse" name="sparse" ng-model="lxForm.model.sparse" bbc-checkbox>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="expireAfterSeconds">TTL Index&nbsp;
+                            <i popover-placement="bottom" popover-title="TTL Index" popover="{{ 'INFO_TTL_INDEX' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                            </i>
+                        </label>
+                        <div class="col-md-9">
+                            <label>
+                                <input type="text" class="form-control" id="expireAfterSeconds" name="expireAfterSeconds" ng-model="lxForm.model.expireAfterSeconds" bbc-integer>
+                            </label>
+                            &nbsp;seconds
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="background">Background Indexing&nbsp;
+                            <i popover-placement="right" popover-title="Background Indexing" popover="{{ 'INFO_BACKGROUND_INDEXING' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                            </i>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="checkbox non-selectable">
+                                <label>
+                                    <input type="checkbox" id="background" name="background" ng-model="lxForm.model.background" bbc-checkbox>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Default language&nbsp;
+                            <i popover-placement="bottom" popover-title="Default language" popover="{{ 'INFO_DEFAULT_LANGUAGE' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                            </i>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-model="lxForm.model.default_language" name="default_language" maxlength="128">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Language override&nbsp;
+                            <i popover-placement="bottom" popover-title="Language override" popover="{{ 'INFO_LANGUAGE_OVERRIDE' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                            </i>
+                        </label>
+
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-model="lxForm.model.language_override" name="language_override" maxlength="128">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Weigths&nbsp;
+                            <i popover-placement="top" popover-title="Weigths" popover="{{ 'INFO_WEIGTH' | translate }}" aria-hidden="true" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign blue" style="cursor: pointer">
+                            </i>
+                        </label>
+                        <div class="col-md-9">
+                            <!--<div class="panel-body">-->
+                                <textarea ng-model="lxForm.model.weigthsString" id="weigthsString" lx-codemirror lx-codemirror-visible="showSettings" id="codeContainerWeigths"></textarea>
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-danger alert-dismissable" ng-show="lxForm.model.$weightError" style="margin-left: 20px">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="lxForm.model.$weightError = null">&times;</button>
+                    <span>{{ 'ERROR_PARSE' | translate }}&nbsp;("{{ lxForm.model.$weightError }}")</span>
+                </div>
+
+                <div class="row" ng-if="indexData.error">
+                    <hr>
+                    <div class="col-md-12" style="padding:0">
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="indexData.error = null">&times;</button>
+                            {{ indexData.error }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default btn-equal" ng-click="cancel()" title="{{ 'CLOSE_MODAL' | translate }}">{{ 'CLOSE' | translate }}</button>
+    <button class="btn btn-default btn-equal" ng-click="closeForm()" ng-show="showElementsToEdit" title="{{ 'CANCEL_EDIT' | translate }}">{{ 'CANCEL' | translate }}</button>
+    <button class="btn btn-default btn-equal" ng-click="dropIndexOfCollection()" ng-disabled="lxForm.model.name == '_id_' || lxForm.model.newIndex" ng-show="showElementsToEdit">{{ 'DELETE_INDEX' | translate }}</button>
+    <button class="btn btn-primary btn-equal" ng-click="save()" ng-disabled="form.$invalid || lxForm.isUnchanged() || lxForm.model.name == '_id_'" ng-show="showElementsToEdit">{{ 'SAVE' | translate }}</button>
+</div>
+
+</form>

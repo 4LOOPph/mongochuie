@@ -1,0 +1,248 @@
+<div class="col-left" ng-if="!openConnectionMenu">
+    <div style="padding:0 10px">
+        <div class="btn-group" style="width: 100%" ng-show="$parent.navigation[0].children[0]">
+            <button style="width: 80%" class="btn btn-primary" ng-click="openModalToConnect()" id="openModalToConnect" ng-disabled="isLoading">{{ 'CONNECT' | translate }}</button>
+            <button style="width: 20%" class="btn btn-default" ng-click="editSettings()"><span class="glyphicon glyphicon-cog"></span></button>
+        </div>
+    </div>
+
+    <ul id="menuDatabases" class="connectionList">
+        <li ng-repeat="connection in connections" class="non-selectable">
+            <div class="connectionNameContainer" title="{{ connection.titleOfReplicaSetConnection }}">
+                <i colorpicker="hex" colorpicker-position="right" ng-model="connection.color" class="glyphicon glyphicon-tasks" ng-style="{color: connection.color}"></i>
+                <!--<span class="connectionName" lx-contextmenu ng-click="connection.showDatabases = !connection.showDatabases" title="{{ connection.replSetStat | json }}"><small>{{ connection.displayName }}</small></span>-->
+                <span class="connectionName" lx-contextmenu ng-click="connection.showDatabases = !connection.showDatabases"><small>{{ connection.displayName }}</small></span>
+                <ul class="dropdown-menu context-menu" style="padding-top: 0">
+                    <li role="presentation" class="dropdown-header">{{ connection.displayName }}</li>
+                    <li class="divider"></li>
+                    <li><a href="" ng-click="removeConnection(connection)" title="{{ 'DISCONNECT_TEXT' | translate }}">{{ 'DISCONNECT' | translate }}</a></li>
+                    <li ng-if="!connection.isSlave" class="divider"></li>
+                    <li ng-if="!connection.isSlave"><a href="" ng-click="openModalToAddNewDatabase(connection)" title="{{ 'ADD_DB_TEXT' | translate }}"><nobr>{{ 'ADD_DB' | translate }}...</nobr></a></li>
+                </ul>
+                <button ng-if="!checkAgent" class="btn btn-success btn-xs pull-right" ng-click="refreshConnection(connection)" title="{{ 'REFRESH_CONNECTION' | translate }}" style="margin-right: 10px" ng-disabled="isLoading"><span class="glyphicon glyphicon-refresh"></span></button>
+                <button class="btn btn-danger btn-xs pull-right" ng-click="removeConnection(connection)" title="{{ 'DISCONNECT_TEXT' | translate }}" style="margin-right: 5px"><span class="glyphicon glyphicon-off"></span></button>
+                <span ng-if="checkAgent" class="pull-right dropdown">
+                    <button class="btn btn-primary btn-xs dropdown-toggle" title="{{ 'DISCONNECT_TEXT' | translate }}" style="margin-right: 5px"><span class="glyphicon glyphicon-tasks"></span></button>
+
+                    <ul class="dropdown-menu" style="padding-top: 0">
+                        <li role="presentation" class="dropdown-header">{{ connection.displayName }}</li>
+                        <li class="divider"></li>
+                        <li><a href="" ng-click="removeConnection(connection)" title="{{ 'DISCONNECT_TEXT' | translate }}">{{ 'DISCONNECT' | translate }}</a></li>
+                        <li ng-if="!connection.isSlave" class="divider"></li>
+                        <li ng-if="!connection.isSlave"><a href="" ng-click="openModalToAddNewDatabase(connection)" title="{{ 'ADD_DB_TEXT' | translate }}"><nobr>{{ 'ADD_DB' | translate }}...</nobr></a></li>
+                    </ul>
+                </span>
+            </div>
+
+            <ul class="databaseList" ng-if="connection.showDatabases">
+                <li ng-repeat="db in connection.databases" class="non-selectable" dropdown>
+                    <div lx-contextmenu class="dataBaseNameContainer" ng-click="showCollectionsFromDatabase(connection, db)" ng-if="!checkAgent">
+                        <span ng-show="db.name !== 'admin' && db.name !== 'local' && !checkAgent" class="databaseName" title="{{ db.name }}"> <i class="glyphicon glyphicon-tasks"></i>{{ db.name }}</span>
+                        <span ng-show="db.name === 'admin' || db.name === 'local'" class="databaseName" style="font-style: italic" title="{{ db.name }}"><i class="glyphicon glyphicon-flag"></i>{{ db.name }}</span>
+                    </div>
+                    <ul class="dropdown-menu context-menu" ng-if="db.name !== 'admin' && db.name !== 'local'" style="padding-top: 0" ng-if="!checkAgent">
+                        <li role="presentation" class="dropdown-header">{{ db.name }}</li>
+                        <li class="divider"></li>
+                        <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToRenameDatabase(connection, db)" title="{{ 'RENAME_DB_TEXT' | translate }}"><nobr>{{ 'RENAME' | translate }}...</nobr></a></li>
+                        <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToCopyDatabase(connection, db)" title="{{ 'COPY_DB_TEXT' | translate }}"><nobr>{{ 'COPY' | translate }}...</nobr></a></li>
+                        <li ng-if="!connection.isSlave"><a href="#" ng-click="dropDatabase(connection, db)" title="{{ 'DROP_DB_TEXT' | translate }}"><nobr>{{ 'DROP' | translate }}...</nobr></a></li>
+                        <li><a href="#" ng-click="repairDatabase(connection, db)" title="{{ 'REPAIR_DATABASE_TEXT' | translate }}"><nobr>{{ 'REPAIR' | translate }}</nobr></a></li>
+                        <li ng-if="!connection.isSlave" class="divider"></li>
+                        <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToAddNewCollection(connection, db)" title="{{ 'ADD_COLLECTION_TEXT' | translate }}"><nobr>{{ 'ADD_COLLECTION' | translate }}...</nobr></a></li>
+                        <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToImportCollection(connection, db, true)" title="{{ 'IMPORT_COLLECTION' | translate }}"><nobr>{{ 'IMPORT_COLLECTION' | translate }}...</nobr></a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" ng-click="refreshConnection(connection)" title="{{ 'REFRESH_CONNECTION' | translate }}"><nobr>{{ 'REFRESH_CONNECTION' | translate }}</nobr></a></li>
+                    </ul>
+
+                    <div class="dropdown" ng-if="checkAgent">
+                        <span ng-show="db.name === 'admin' || db.name === 'local'" class="databaseName" style="font-style: italic" title="{{ db.name }}"><i class="glyphicon glyphicon-flag"></i></span>
+                        <span class="dropdown-toggle databaseName" ng-show="db.name !== 'admin' && db.name !== 'local'"><i class="glyphicon glyphicon-tasks"></i></span>
+
+                        <ul class="dropdown-menu" role="menu" style="padding-top: 0">
+                            <li role="presentation" class="dropdown-header">{{ db.name }}</li>
+                            <li class="divider"></li>
+                            <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToRenameDatabase(connection, db)" title="{{ 'RENAME_DB_TEXT' | translate }}"><nobr>{{ 'RENAME' | translate }}...</nobr></a></li>
+                            <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToCopyDatabase(connection, db)" title="{{ 'COPY_DB_TEXT' | translate }}"><nobr>{{ 'COPY' | translate }}...</nobr></a></li>
+                            <li ng-if="!connection.isSlave"><a href="#" ng-click="dropDatabase(connection, db)" title="{{ 'DROP_DB_TEXT' | translate }}"><nobr>{{ 'DROP' | translate }}...</nobr></a></li>
+                            <li><a href="#" ng-click="repairDatabase(connection, db)" title="{{ 'REPAIR_DATABASE_TEXT' | translate }}"><nobr>{{ 'REPAIR' | translate }}</nobr></a></li>
+                            <li ng-if="!connection.isSlave" class="divider"></li>
+                            <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToAddNewCollection(connection, db)" title="{{ 'ADD_COLLECTION_TEXT' | translate }}"><nobr>{{ 'ADD_COLLECTION' | translate }}...</nobr></a></li>
+                            <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToImportCollection(connection, db, true)" title="{{ 'IMPORT_COLLECTION' | translate }}"><nobr>{{ 'IMPORT_COLLECTION' | translate }}...</nobr></a></li>
+
+                            <li class="divider"></li>
+                            <li><a href="#" ng-click="refreshConnection(connection)" title="{{ 'REFRESH_CONNECTION' | translate }}"><nobr>{{ 'REFRESH_CONNECTION' | translate }}</nobr></a></li>
+                        </ul>
+                        <span ng-click="showCollectionsFromDatabase(connection, db)" title="{{ db.name }}">{{ db.name }}</span>
+                    </div>
+
+                    <ul class="collectionList" ng-show="db.showCollections">
+                        <li ng-repeat="collection in db.collections">
+                            <div lx-contextmenu class="collectionName" ng-if="!isCollectionSystemCollection(collection) && !checkAgent" ng-click="openTabForSelectedCollection({connection: connection, db: db, collectionName: collection})">
+                                <div class="ellipsis" ng-show="collection.indexOf('.files') === -1">{{ collection }}</div>
+                                <div class="ellipsis" ng-show="collection.indexOf('.files') > -1" style="font-style: italic"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;{{ collection }}</div>
+                            </div>
+                            <ul class="dropdown-menu context-menu" style="padding-top: 0" ng-if="!checkAgent">
+                                <li role="presentation" class="dropdown-header">{{ collection }}</li>
+                                <li class="divider"></li>
+                                <li><a href="" ng-click="openTabForSelectedCollection({connection: connection, db: db, collectionName: collection, isExtraTab: true})" title="{{ 'ADD_TAB_TEXT' | translate }}">{{ 'ADD_TAB' | translate }}</a></li>
+                                <li class="divider"></li>
+                                <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToEditAndAddIndexes(connection, db.name, collection)" title="Indexes">{{ 'INDEXES' | translate }}...</a></li>
+                                <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToRenameCollection(connection, db, collection)" title="{{ 'RENAME_COLLECTION_TEXT' | translate }}"><nobr>{{ 'RENAME' | translate }}...</nobr></a></li>
+                                <li><a href="#" ng-click="openModalToCopyCollection(connection, db, collection)" title="{{ 'COPY_COLLECTION_TEXT' | translate }}"><nobr>{{ 'COPY' | translate }}...</nobr></a></li>
+                                <li ng-if="!connection.isSlave"><a href="#" ng-click="dropCollection(connection, db, collection)" title="{{ 'DROP_COLLECTION_TEXT' | translate }}"><nobr>{{ 'DROP' | translate }}...</nobr></a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" ng-if="collection.indexOf('.files') === -1" ng-click="openModalToExportCollection(connection, db, collection)" title="{{ 'EXPORT_COLLECTION_TEXT' | translate }}"><nobr>{{ 'EXPORT' | translate }}...</nobr></a></li>
+                                <li ng-if="!connection.isSlave"><a href="#" ng-if="collection.indexOf('.files') === -1" ng-click="openModalToImportCollection(connection, db , false, collection)" title="{{ 'IMPORT_COLLECTION' | translate }}"><nobr>{{ 'IMPORT' | translate }}...</nobr></a></li>
+                            </ul>
+
+                            <div class="dropdown collectionName" ng-if="!isCollectionSystemCollection(collection) && checkAgent">
+                                <span class="dropdown-toggle">
+                                    <i ng-show="collection.indexOf('.files') === -1" class="glyphicon glyphicon-tasks"></i>
+                                    <i ng-show="collection.indexOf('.files') > -1" class="glyphicon glyphicon-folder-open"></i>
+                                </span>
+
+                                <ul class="dropdown-menu" role="menu" style="padding-top: 0">
+                                    <li role="presentation" class="dropdown-header">{{ collection }}</li>
+                                    <li class="divider"></li>
+                                    <li><a href="" ng-click="openTabForSelectedCollection({connection: connection, db: db, collectionName: collection, isExtraTab: true})" title="{{ 'ADD_TAB_TEXT' | translate }}">{{ 'ADD_TAB' | translate }}</a></li>
+                                    <li class="divider"></li>
+                                    <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToEditAndAddIndexes(connection, db.name, collection)" title="Indexes">{{ 'INDEXES' | translate }}...</a></li>
+                                    <li ng-if="!connection.isSlave"><a href="#" ng-click="openModalToRenameCollection(connection, db, collection)" title="{{ 'RENAME_COLLECTION_TEXT' | translate }}"><nobr>{{ 'RENAME' | translate }}...</nobr></a></li>
+                                    <li><a href="#" ng-click="openModalToCopyCollection(connection, db, collection)" title="{{ 'COPY_COLLECTION_TEXT' | translate }}"><nobr>{{ 'COPY' | translate }}...</nobr></a></li>
+                                    <li ng-if="!connection.isSlave"><a href="#" ng-click="dropCollection(connection, db, collection)" title="{{ 'DROP_COLLECTION_TEXT' | translate }}"><nobr>{{ 'DROP' | translate }}...</nobr></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#" ng-if="collection.indexOf('.files') === -1" ng-click="openModalToExportCollection(connection, db, collection)" title="{{ 'EXPORT_COLLECTION_TEXT' | translate }}"><nobr>{{ 'EXPORT' | translate }}...</nobr></a></li>
+                                    <li ng-if="!connection.isSlave"><a href="#" ng-if="collection.indexOf('.files') === -1" ng-click="openModalToImportCollection(connection, db , false, collection)" title="{{ 'IMPORT_COLLECTION' | translate }}"><nobr>{{ 'IMPORT' | translate }}...</nobr></a></li>
+                                </ul>
+                                <span ng-click="openTabForSelectedCollection({connection: connection, db: db, collectionName: collection})" class="ellipsis" ng-show="collection.indexOf('.files') === -1">&nbsp;{{ collection }}</span>
+                                <span ng-click="openTabForSelectedCollection({connection: connection, db: db, collectionName: collection})" class="ellipsis" ng-show="collection.indexOf('.files') > -1" style="font-style: italic">&nbsp;{{ collection }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="col-right">
+    <div class="beige-noise">
+        <div class="p-wrapper">
+            <tabset ng-show="tabControl.length >= 1">
+                <tab ng-repeat="tab in tabControl" active="tab.active" style="cursor: pointer" ng-style="{'border-left-color' : tab.color }">
+                    <tab-heading class="non-selectable">
+                        <div lx-contextmenu class="tabControl-container">
+                            <div style="float: left; margin-right: 10px" title="{{ tab.title }}">{{tab.header}}</div>
+                            <a class="badge" ng-click="removeTab($index, 'single')" href=""><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                        <ul class="dropdown-menu context-menu">
+                            <li><a href="#" ng-click="removeTab($index, 'all')" title="{{ 'REMOVE_ALL_TABS' | translate }}"><nobr>{{ 'REMOVE_ALL_TABS' | translate }}</nobr></a></li>
+                            <li><a href="#" ng-click="removeTab($index, 'allOther')" title="{{ 'REMOVE_ALL_OTHER_TABS' | translate }}"><nobr>{{ 'REMOVE_ALL_OTHER_TABS' | translate }}</nobr></a></li>
+                        </ul>
+                    </tab-heading>
+                    <div class="tab-content-view">
+                        <div class="panel panel-default" style="margin:10px">
+                            <div ng-if="tab.isSlave" class="alert alert-warning" role="alert" style="margin-bottom: 0px; padding: 5px; border-radius: 9px 9px 0 0">{{ 'READ_OPERATIONS_ONLY' | translate }}</div>
+                            <div class="panel-heading" style="padding: 10px 15px 0 15px">
+                                <div class="btn-toolbar" role="toolbar">
+                                    <div class="btn-group">
+                                        <button ng-if="tab.selectedQueryParam !== 'mongoshell'" class="btn btn-success btn-tabControl" id="submitQuery" ng-click="tab.newQuery = true; getData(tab)" ng-disabled="isLoading">{{ 'SEARCH' | translate }}<i class="glyphicon glyphicon-play" style="margin-left: 7px"></i></button>
+	                                    <button ng-if="tab.selectedQueryParam === 'mongoshell' && !tab.mongoshell.pid" class="btn btn-success btn-tabControl" ng-click="tab.newQuery = true; openMongoShell(tab)" ng-disabled="isLoading">{{ 'MONGOSHELL_OPEN' | translate }}</button>
+                                        <button ng-if="tab.selectedQueryParam === 'mongoshell' && tab.mongoshell.pid" class="btn btn-warning btn-tabControl" ng-click="closeMongoShell(tab)" ng-disabled="isLoading">{{ 'MONGOSHELL_CLOSE' | translate }}</button>
+                                        <!--<button class="btn btn-success btn-tabControl" id="submitQuery" ng-click="tab.newQuery = true; getData(tab)" ng-disabled="isLoading">{{ 'SEARCH' | translate }}<i class="glyphicon glyphicon-play" style="margin-left: 7px;"></i></button>-->
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" title="{{ 'FIND_TEXT' | translate }}" class="btn btn-default" ng-model="tab.selectedQueryParam" btn-radio="'find'" ng-click="switchQueryParam(tab, 'find')">F</button>
+                                        <!--<button type="button" title="{{ 'MAP_REDUCE_TEXT' | translate }}" class="btn btn-default" ng-model="tab.selectedQueryParam" btn-radio="'map-reduce'" disabled>MR</button>-->
+                                        <button type="button" title="{{ 'SERVERSIDESCRIPT_TEXT' | translate }}" class="btn btn-default btn-e2e-query-console" ng-model="tab.selectedQueryParam" btn-radio="'serversidescript'" ng-click="switchQueryParam(tab, 'serversidescript')">S</button>
+                                        <button type="button" title="{{ 'MONGOSHELL_TEXT' | translate }}" class="btn btn-default btn-e2e-query-console" ng-model="tab.selectedQueryParam" btn-radio="'mongoshell'" ng-click="switchQueryParam(tab, 'mongoshell')">C</button>
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default btn-e2e-view-list active" ng-model="tab.selectedView" btn-radio="views[0].pathToHTMLFile" title="{{ 'LIST_VIEW' | translate }}" ng-click="switchDocumentView(tab, views[0].pathToHTMLFile)"><i class="glyphicon glyphicon-align-left icons-view-select"></i></button>
+                                        <button type="button" class="btn btn-default btn-e2e-view-table" ng-model="tab.selectedView" btn-radio="views[1].pathToHTMLFile" title="{{ 'TABLE_VIEW' | translate }}" ng-click="switchDocumentView(tab, views[1].pathToHTMLFile)"><i class="glyphicon glyphicon-list icons-view-select"></i></button>
+                                        <button type="button" class="btn btn-default btn-e2e-view-document" ng-model="tab.selectedView" btn-radio="views[2].pathToHTMLFile" title="{{ 'TEXT_VIEW' | translate }}" ng-click="switchDocumentView(tab, views[2].pathToHTMLFile)"><i class="glyphicon glyphicon-file icons-view-select"></i></button>
+                                    </div>
+
+                                    <div class="btn-group" ng-if="tab.heading.split('.')[0] !== 'admin' && !tab.isSlave">
+                                        <button type="button" class="btn btn-primary" ng-click="openModalToEdit(null, tab)" ng-if="!tab.isGridFSCollection" title="{{ 'ADD_DOCUMENT_TEXT' | translate }}">{{ 'ADD_DOCUMENT' | translate }}</button>
+                                    </div>
+
+                                    <div class="btn-group" ng-if="tab.heading.split('.')[0] !== 'admin' && !tab.isSlave">
+                                        <button type="button" class="btn btn-danger" ng-click="deleteSelectedDocument(null, tab)" ng-if="tab.documents.$selectCount > 0 && tab.selectedView === views[1].pathToHTMLFile" title="{{ 'DELETE_DOCUMENT' | translate }}">{{ 'DELETE_DOCUMENT' | translate }}</button>
+                                    </div>
+
+                                    <div class="btn-group pull-right" ng-if="tab.heading.split('.')[0] != 'admin'" dropdown>
+                                        <button type="button" class="btn btn-default dropdown-toggle">
+                                            {{ 'COLLECTION' | translate }} <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-if="!tab.isSlave"><a dropdown-toggle style="cursor: pointer" ng-click="openModalToEditAndAddIndexes(tab, tab.db.name, tab.collectionName)" title="Indexes">{{ 'INDEXES' | translate }}...</a></li>
+                                            <li ng-if="!tab.isSlave"><a dropdown-toggle style="cursor: pointer" ng-click="openModalToRenameCollection(tab, tab.db, tab.collectionName)" title="{{ 'RENAME_COLLECTION_TEXT' | translate }}"><nobr>{{ 'RENAME' | translate }}...</nobr></a></li>
+                                            <li><a dropdown-toggle style="cursor: pointer" ng-click="openModalToCopyCollection(tab, tab.db, tab.collectionName)" title="{{ 'COPY_COLLECTION_TEXT' | translate }}"><nobr>{{ 'COPY' | translate }}...</nobr></a></li>
+                                            <li ng-if="!tab.isSlave"><a dropdown-toggle style="cursor: pointer" ng-click="dropCollection(tab, tab.db, tab.collectionName)" title="{{ 'DROP_COLLECTION_TEXT' | translate }}"><nobr>{{ 'DROP' | translate }}...</nobr></a></li>
+                                            <li class="divider"></li>
+                                            <li><a dropdown-toggle style="cursor: pointer" ng-click="openModalToExportCollection(tab, tab.db, tab.collectionName)" title="{{ 'EXPORT_COLLECTION_TEXT' | translate }}"><nobr>{{ 'EXPORT' | translate }}...</nobr></a></li>
+                                            <li ng-if="!tab.isSlave"><a dropdown-toggle style="cursor: pointer" ng-click="openModalToImportCollection(tab, tab.db, false, tab.collectionName)" title="{{ 'IMPORT_COLLECTION_TEXT' | translate }}"><nobr>{{ 'IMPORT' | translate }}...</nobr></a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-group pull-right" dropdown>
+                                        <button type="button" class="btn btn-default dropdown-toggle">
+                                            {{ 'THEMES' | translate }} <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-class="{active: theme === codeTheme[tab.selectedQueryParam]}" ng-repeat="theme in themeSelection"><a dropdown-toggle style="cursor: pointer" ng-click="setCodemirroTheme(theme,tab.selectedQueryParam)" title="{{ theme }}">{{ theme }}</a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="panel-body" id="codeContainer" lx-scrollframe-width="frameWidth" lx-scrollframe="tab.input" lx-scrollframe-mirror-visible="fixCode" lx-scrollframe-repaint="tab.active">
+                                <div class="codeContainerInner">
+                                    <div ng-show="tab.selectedQueryParam !== 'mongoshell'" class="mirrorFrame" ng-class="{mirrorFixed : fixCode}">
+                                        <div ng-show="!showCode" style="max-height: inherit;overflow:auto">
+                                            <textarea ng-model="tab.input" lx-codehint="false" lx-codemirror-mode="tab.selectedQueryParam" lx-hint-collection-list="tab.hintCollectionList" lx-theme="codeTheme[tab.selectedQueryParam]" lx-codemirror action="getData(tab)">
+                                                {}
+                                            </textarea>
+                                        </div>
+                                        <div class="codemirror-switch">
+                                            <!--<span class="pull-left glyphicon glyphicon-pushpin" ng-click="fixCode=!fixCode" ng-class="{pinned : fixCode}"></span>-->
+                                            <span class="glyphicon" ng-class="{'glyphicon-chevron-up': !showCode, 'glyphicon-chevron-down': showCode}" ng-click="showCode=!showCode;"></span>
+                                        </div>
+                                    </div>
+
+                                    <div ng-show="tab.selectedQueryParam === 'mongoshell'" class="mirrorFrame" ng-class="{mirrorFixed : fixCode}">
+                                        <div class="lx-local-shell-area">
+                                            <span ng-if="tab.selectedQueryParam === 'mongoshell' && !tab.mongoshell.pid" style="margin: 4px; padding: 10px; background-color: steelblue; color: whitesmoke; display: block">
+                                                <i class="glyphicon glyphicon-info-sign"></i>&nbsp;{{ 'MONGOSHELL_HINT' | translate }}
+                                            </span>
+                                            <div ng-if="tab.selectedQueryParam === 'mongoshell' && tab.mongoshell.pid" data-autoscroll="true">
+                                                <textarea id="mongoshellconsole" wrap="off" ng-model="tab.mongoshell.history" readonly="readonly">
+                                                    {}
+                                                </textarea>
+                                            </div>
+
+                                            <div title="mongoshell input" ng-if="tab.selectedQueryParam === 'mongoshell' && tab.mongoshell.pid">
+                                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                                <input ng-model="tab.input" ng-enter="getData(tab)" placeholder="{{ 'MONGOSHELL_INPUT_PLACEHOLDER' | translate }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-include="tab.selectedView" class="codeContainerInclude"></div>
+                                </div>
+                            </div>
+
+                            <div class="panel-footer" ng-show="tab.selectedQueryParam !== 'serversidescript' && tab.selectedQueryParam !== 'mongoshell'">
+                                <bbc-pager count="tab.count" current-page="currentPage" page-sizes="[1, 5, 10, 20, 50, 100, 500]" page-size="{{ defaultPageSize }}" on-paging="getData(tab, pagingOptions)"></bbc-pager>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+            </tabset>
+
+            <iframe id="hiddenFileDownloader" src="" hidden="hidden"></iframe>
+        </div>
+    </div>
+</div>

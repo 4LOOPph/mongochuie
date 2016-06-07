@@ -1,0 +1,86 @@
+<div class="modal-header">
+    <h3>{{ 'COPY_COLLECTION' | translate }} "{{ model.collectionName }}"<br>
+        <small>{{ model.displayName }}</small>
+    </h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" name="form" ng-submit="form.$valid && ok()" novalidate>
+        <div class="form-group">
+            <div class="col-md-9 col-md-offset-3">
+                <bbc-radio ng-model="model.selectedOption" value="sameDbSameServer" label="{{ 'COPY_SAME' | translate }}"></bbc-radio>
+                <br>
+                <bbc-radio ng-model="model.selectedOption" value="differentDatabase" label="{{ 'COPY_DIFFERENT_DB' | translate }}"></bbc-radio>
+                <br>
+                <bbc-radio ng-model="model.selectedOption" value="differentServer" label="{{ 'COPY_DIFFERENT_SERVER' | translate }}" title="{{ 'COPY_DIFFERENT_SERVER_INFO' | translate }}"></bbc-radio>
+            </div>
+        </div>
+
+        <hr ng-if="model.selectedOption">
+
+        <div class="form-group" ng-if="model.selectedOption === 'sameDbSameServer'">
+            <label class="col-md-3 control-label" for="selectedOption">{{ 'COLLECTION_NAME' | translate }}</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" id="selectedOption" ng-model="model.destinationCollectionName" name="destinationCollectionName" maxlength="128" required lx-focus="model.selectedOption === 'sameDbSameServer'">
+            </div>
+        </div>
+
+        <div ng-if="model.selectedOption === 'differentServer'">
+            <div class="form-group">
+                <label class="col-md-3 control-label">{{ 'SERVER_COPY_NAME' | translate }}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" ng-model="model.destinationServer" name="destinationServer" placeholder="{{ 'CONNECTION_EXAMPLE' | translate }}" required maxlength="500" lx-focus="model.selectedOption === 'differentServer'">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="model.selectedOption === 'differentDatabase' || model.selectedOption === 'differentServer'">
+            <label class="col-md-3 control-label" for="destinationDbName">{{ 'DB_COPY_NAME' | translate }}</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" id="destinationDbName" ng-model="model.destinationDbName" name="destinationDbName" maxlength="60" required lx-focus="model.selectedOption === 'differentDatabase'">
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="model.selectedOption !== 'sameDbSameServer'">
+            <label class="col-md-3 control-label" for="login_database" title="{{ 'LOGIN_DATABASE_TEXT' | translate }}">{{ 'LOGIN_DATABASE' | translate }}</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" id="login_database" ng-model="model.login_database" name="login_database" maxlength="500" placeholder="{{ 'LOGIN_DATABASE_TEXT' | translate }}">
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="model.selectedOption !== 'sameDbSameServer'">
+            <label class="col-md-3 control-label" for="destination_login" title="{{ 'USERNAME_DESTINATION_DB_TEXT' | translate }}">{{ 'USERNAME' | translate }}</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" id="destination_login" ng-model="model.destination_login" name="destination_login" maxlength="100" placeholder="{{ 'USERNAME_DESTINATION_DB_TEXT' | translate }}">
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="model.selectedOption !== 'sameDbSameServer'">
+            <label class="col-md-3 control-label" for="destination_password" title="{{ 'PASSWORD_DESTINATION_DB_TEXT' | translate }}">{{ 'PASSWORD' | translate }}</label>
+            <div class="col-md-9">
+                <input type="password" class="form-control" id="destination_password" ng-model="model.destination_password" name="destination_password" maxlength="200" placeholder="{{ 'PASSWORD_DESTINATION_DB_TEXT' | translate }}">
+            </div>
+        </div>
+
+        <div class="row" ng-if="model.error">
+            <hr>
+            <div class="col-md-12" style="padding:0">
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="model.error = null">&times;</button>
+                    {{ model.error }}
+                </div>
+            </div>
+        </div>
+
+        <input type="submit" class="hidden-input">
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <span class="col-md-8" style="text-align: left">{{ 'INFO_COPY' | translate }}</span>
+
+        <div class="col-md-4">
+            <button class="btn btn-default btn-equal" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+            <button class="btn btn-primary btn-equal" type="submit" ng-click="ok()" ng-disabled="form.$invalid">{{ 'COPY' | translate }}</button>
+        </div>
+   </div>
+</div>

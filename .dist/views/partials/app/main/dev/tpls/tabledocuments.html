@@ -1,0 +1,60 @@
+<div class="table-responsive" ng-init="tab.documents.$isAllSelected = false">
+    <table class="table table-hover table-mongo-query" ng-show="tab.documents.data.length > 0">
+        <thead>
+            <tr>
+                <th ng-show="tab.isSelectedQueryParam === 'find' && !tab.isSlave" style="text-align: center">
+                    <label class="labelBottomHeightFix" ng-click="setParameterForSelectedAllDocuments(tab.documents)">
+                        <input type="checkbox" bbc-checkbox ng-model="tab.documents.$isAllSelected" ng-show="tab.documents.data.length > 0" title="{{ 'SELECT_ALL_DOCUMENTS' | translate }}">
+                    </label>
+                </th>
+                <th ng-show="tab.isSelectedQueryParam === 'find' && !tab.isSlave"></th>
+                <th ng-show="tab.isSelectedQueryParam === 'find' && !tab.isSlave"></th>
+                <!--<th ng-show="tab.isSelectedQueryParam === 'find' && tab.isGridFSCollection && !tab.isSlave"></th>-->
+                <th ng-show="tab.isSelectedQueryParam === 'find' && tab.isGridFSCollection"></th>
+                <th ng-show="tab.isSelectedQueryParam === 'serversidescript' || tab.isSelectedQueryParam === 'mongoshell'"></th>
+                <th ng-repeat="name in tab.documents.tableHeader" style="text-align: center;cursor:pointer" ng-click="sort(tab, name, tab.sort)" ng-if="tab.isSelectedQueryParam === 'find'">
+                    <nobr>
+                        <span>{{ name }}</span>
+                        <i ng-if="tab.sort === -1 && tab.fieldSort === name" class="glyphicon glyphicon-arrow-down" title="{{ 'SORT_DESCENDING' | translate }}"></i>
+                        <i ng-if="tab.sort === 1 && tab.fieldSort === name" class="glyphicon glyphicon-arrow-up" title="{{ 'SORT_ASCENDING' | translate }}"></i>
+                    </nobr>
+                </th>
+                <th ng-repeat="name in tab.documents.tableHeader" style="text-align: center" ng-if="tab.isSelectedQueryParam !== 'find'">
+                    <nobr>
+                        <span>{{ name }}</span>
+                    </nobr>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="document in tab.documents.tableDocuments track by $index">
+            <td style="text-align: center; width: 20px" ng-show="tab.isSelectedQueryParam === 'find' && !tab.isSlave">
+                <label class="labelBottomHeightFix" ng-click="::setParameterForSelectionByDocument(tab.documents, document)">
+                    <input type="checkbox" bbc-checkbox ng-model="document.$isSelected">
+                </label>
+            </td>
+            <td style="text-align: center; width: 20px" ng-show="tab.isSelectedQueryParam === 'find' && !tab.isSlave">
+                <nobr>
+                    <a href="" title="{{ 'DELETE_DOCUMENT' | translate }}" ng-click="::deleteSelectedDocument(document.id, tab)"><i class="glyphicon glyphicon-trash" style="color: #444"></i></a>
+                </nobr>
+            </td>
+            <td style="text-align: center; width: 20px" ng-show="tab.isSelectedQueryParam === 'find' && !tab.isSlave">
+                <nobr>
+                    <a href="" title="{{ 'EDIT_DOCUMENT' | translate }}" ng-click="::openModalToEdit(tab.documents.textDocuments[$index], tab)"><i class="glyphicon glyphicon-edit" style="color: #444"></i></a>
+                </nobr>
+            </td>
+            <td style="text-align: center; width: 20px" ng-show="tab.isSelectedQueryParam === 'find' && tab.isGridFSCollection">
+                <nobr>
+                    <a href="" title="{{ 'DOWNLOAD_FILE' | translate }}" ng-click="::downloadFile(document.id, tab)"><i class="glyphicon glyphicon-save" style="color: #444"></i></a>
+                </nobr>
+            </td>
+            <td style="text-align: center; width: 20px" ng-show="tab.isSelectedQueryParam === 'serversidescript' || tab.isSelectedQueryParam === 'mongoshell'">{{ $index + 1 }}</td>
+            <td ng-repeat="prop in tab.documents.tableHeader" ng-style="{textAlign: document.data[prop].style.align}">
+                <nobr ng-style="{ fontStyle: document.data[prop].style.fontStyle, color: document.data[prop].style.color }" popover="{{ ::document.data[prop].title | json }}" popover-trigger="mouseenter" popover-placement="bottom">
+                    {{ document.data[prop].valueAsJSON || document.data.valueAsJSON}}
+                </nobr>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

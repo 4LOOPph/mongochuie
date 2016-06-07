@@ -1,0 +1,26 @@
+<div ng-if="prop.hasItems">
+    <div class="config_li">
+        <nobr>
+            <a href="" ng-click="expandPropertyInListView(prop)">
+                <i title="{{ 'OPEN_PROPERTY' | translate }}" ng-show="!prop.isExpanded" class="glyphicon glyphicon-chevron-right"></i>
+                <i title="{{ 'CLOSE_PROPERTY' | translate }}" ng-show="prop.isExpanded" class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <span>{{ prop.key }}</span>:
+            <span ng-show="!prop.isExpanded || prop.isObjectID" ng-style="{ fontStyle: prop.style.fontStyle, color: prop.style.color }">
+                {{ prop.valueAsJSON }}
+            </span>
+        </nobr>
+    </div>
+    <div ng-if="prop.isExpanded">
+        <div style="margin-left: 40px; width: 1000px; list-style: none" ng-repeat="prop in prop.properties" ng-include="'app/main/dev/tpls/properties.html'"></div>
+    </div>
+</div>
+
+<div ng-if="!prop.hasItems">
+    <div>
+        <nobr>
+            <span>&nbsp;{{ prop.key }}</span>:
+            <span ng-style="{ fontStyle: prop.style.fontStyle, color: prop.style.color }" title="{{ prop.title }}">{{ prop.valueAsJSON }}</span>
+        </nobr>
+    </div>
+</div>

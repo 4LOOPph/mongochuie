@@ -1,0 +1,101 @@
+{
+    "name": "lx-mms",
+    "description": "The easy way to CRUD your MongoDB",
+    "version": "1.9.4",
+    "homepage": "http://www.litixsoft.de",
+    "author": {
+        "name": "Litixsoft GmbH",
+        "email": "info@litixsoft.de"
+    },
+    "private": "true",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/litixsoft/mms.git"
+    },
+    "bugs": {
+        "url": "https://groups.google.com/forum/?hl=de#!forum/mongo-management-studio"
+    },
+    "keywords": [
+        "your keywords"
+    ],
+    "bin": {
+        "lx-mms": "server.js"
+    },
+    "files": [
+        "server.js"
+    ],
+    "dependencies": {
+        "async": "1.5.2",
+        "baboon": "0.4.26",
+        "chalk": "1.1.1",
+        "express": "4.13.4",
+        "grunt": "0.4.5",
+        "lx-helpers": "0.5.1",
+        "lx-valid": "1.0.0",
+        "mongodb": "1.4.38",
+        "multiparty": "4.1.2",
+        "socket.io": "git+https://github.com/litixsoft/socket.io.git#0.9"
+    },
+    "devDependencies": {
+        "connect-livereload": "0.5.3",
+        "grunt-autoprefixer": "3.0.4",
+        "grunt-bg-shell": "2.3.3",
+        "grunt-bump": "0.7.0",
+        "grunt-concurrent": "2.2.1",
+        "grunt-contrib-clean": "1.0.0",
+        "grunt-contrib-compress": "1.1.1",
+        "grunt-contrib-concat": "1.0.0",
+        "grunt-contrib-copy": "1.0.0",
+        "grunt-contrib-cssmin": "1.0.0",
+        "grunt-contrib-htmlmin": "1.0.0",
+        "grunt-contrib-jshint": "1.0.0",
+        "grunt-contrib-less": "1.2.0",
+        "grunt-contrib-uglify": "1.0.0",
+        "grunt-contrib-watch": "1.0.0",
+        "grunt-conventional-changelog": "6.1.0",
+        "grunt-eslint": "18.0.0",
+        "grunt-express-server": "0.5.2",
+        "grunt-jasmine-node": "valiton/grunt-jasmine-node",
+        "grunt-karma": "0.12.1",
+        "grunt-mkdir": "1.0.0",
+        "grunt-newer": "1.1.2",
+        "grunt-ng-annotate": "2.0.1",
+        "grunt-open": "0.2.3",
+        "grunt-rev": "0.1.0",
+        "grunt-shell": "1.2.1",
+        "grunt-svgmin": "3.1.2",
+        "grunt-usemin": "3.1.1",
+        "istanbul": "0.4.2",
+        "jasmine-core": "2.4.1",
+        "jshint-stylish": "2.1.0",
+        "karma": "0.13.22",
+        "karma-chrome-launcher": "*",
+        "karma-coverage": "0.5.5",
+        "karma-detect-browsers": "2.0.2",
+        "karma-firefox-launcher": "*",
+        "karma-html2js-preprocessor": "0.1.0",
+        "karma-ie-launcher": "*",
+        "karma-jasmine": "0.3.7",
+        "karma-junit-reporter": "0.4.0",
+        "karma-mocha-reporter": "2.0.0",
+        "karma-ng-html2js-preprocessor": "0.2.1",
+        "karma-ng-scenario": "0.1.0",
+        "karma-opera-launcher": "*",
+        "karma-phantomjs-launcher": "*",
+        "karma-requirejs": "0.2.5",
+        "karma-safari-launcher": "*",
+        "karma-script-launcher": "0.2.0",
+        "load-grunt-tasks": "3.4.1",
+        "phantomjs-prebuilt": "2.1.5",
+        "protractor": "2.1.0",
+        "proxyquire": "1.7.4",
+        "requirejs": "2.1.22",
+        "time-grunt": "1.3.0"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "scripts": {
+        "test": "grunt test"
+    }
+}

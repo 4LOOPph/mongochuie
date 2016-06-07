@@ -1,0 +1,39 @@
+ENDBENUTZER-LIZENZVERTRAG für Mongo Management Studio Community Edition Windows/Mac/Linux (bezeichnet als "Software" im weiteren)
+
+§ 1 Gegenstand des Vertrages
+End-User License Agreement (EULA) ist ein rechtsgültiger Vertrag zwischen Ihnen (entweder eine natürliche oder eine juristische Person) und der Litixsoft GmbH für die Software und möglicherweise dazugehörige Software-Komponenten, Medien, gedruckte Materialien und online oder elektronische Dokumentationen. Durch Installation, Kopieren oder anderweitige Nutzung des Softwareprodukts erklären Sie sich mit den Bedingungen dieses EULAs gebunden zu sein. Dieser Lizenzvertrag stellt die gesamte Vereinbarung über das Programm zwischen Ihnen und der Litixsoft GmbH (bezeichnet als "Lizenzgeber" im weiteren), und ersetzt alle früheren Verträge, Vertretung, oder Vereinbarungen zwischen den Parteien. Wenn Sie nicht mit den Bedingungen dieser EULA einverstanden sind, installieren oder verwenden Sie die Software nicht.
+
+§ 2 Urheberrechtschutz
+Der Lizenznehmer erkennt an, dass es sich bei der Software um ein schutzfähiges Computerprogramm im Sinne von § 2 Abs. 1 Nr. 1, § 69 a UrhG handelt und dass der Lizenzgeber Urheber im Sinne der §§ 7, 69 b UrhG ist.
+
+§ 3 Umfang der Benutzung
+Der Lizenzgeber gewährt dem Lizenznehmer für die Dauer dieses Vertrages das einfache, nicht ausschließliche und persönliche Recht (im Folgenden auch als “Lizenz“ bezeichnet), die Software auf einem oder mehreren Computern in seinem Besitz zu installieren und zu benutzen, solange die Software nur auf einem Computer gleichzeitig vom Lizenznehmer genutzt wird. Die Software ist “in Benutzung“ wenn sie in den Zwischenspeicher (d. h. RAM) geladen oder in einem Permanentspeicher (z. B. einer Festplatte oder CD-ROM oder einer anderen Speichervorrichtung) eines Computers gespeichert ist.
+
+§ 4 Besondere Beschränkungen
+Dem Lizenznehmer ist untersagt ohne vorherige schriftliche Einwilligung des Lizenzgebers die Software abzuändern, zu übersetzen oder von der Software abgeleitete Werke zu erstellen. Der Lizenznehmer ist nicht berechtigt, die Software zurückzuentwickeln (Reverse Engineering), zu dekompilieren oder zu disassemblieren oder auf andere Weise zu versuchen, den Quellcode der Software zugänglich zu machen. Ein Anspruch auf Herausgabe des Quellcodes ist ausgeschlossen.
+
+§ 5 Inhaberschaft an Rechten
+Der Lizenznehmer erhält das in diesem Lizenzvertrag vereinbarte Nutzungsrecht. Ein Erwerb von weiteren Rechten an der Software ist ausgeschlossen. Der Lizenzgeber behält sich insbesondere alle Veröffentlichungs-, Vervielfältigungs-, Bearbeitungs- und Verwertungsrechte an der Software vor.
+
+§ 6 Vervielfältigung
+Die Software ist urheberrechtlich geschützt. Das Urheberrecht umfasst ebenfalls den Programmcode, die Dokumentation, das Erscheinungsbild, die Struktur und Organisation der Programmdateien, den Programmnamen, Logos und andere Darstellungsformen innerhalb der Software. Alle Rechte sind vorbehalten und geschützt durch internationale Verträge und Gesetze zum Urheberschutz. Dem Lizenznehmer ist lediglich das Anfertigen einer Reservekopie, die ausschließlich Sicherungszwecken dienen darf, erlaubt. Der Lizenznehmer ist verpflichtet, auf der Reservekopie den Urheberrechtsvermerk des Lizenzgebers anzubringen oder ihn darin aufzunehmen. Ein in der Software vorhandener Urheberrechtsvermerk sowie die in ihr aufgenommenen Registrierungsnummern dürfen nicht entfernt werden. Es ist ausdrücklich verboten, die Software, wie auch das schriftliche Material, ganz oder teilweise in ursprünglicher oder abgeänderter Form oder in mit anderer Software zusammengemischter oder in anderer Software eingeschlossener Form zu kopieren oder zu vervielfältigen.
+
+§ 7 Übertragung des Benutzerrechts
+Das Recht zur Benutzung der Software kann nur mit vorheriger schriftlicher Einwilligung des Lizenzgebers und nur unter den Bedingungen dieses Vertrages an einen Dritten übertragen werden. Verschenken, Vermieten, Verleasen und Verleih der Software sind ausdrücklich untersagt.
+
+§ 8 Dauer des Vertrags
+Der Vertrag läuft auf unbeschränkte Zeit; das Recht des Lizenznehmers zur Benutzung der Software erlischt jedoch - auch ohne Kündigung -, wenn der Lizenznehmer eine Bedingung dieses Vertrages verletzt. Bei Beendigung des Nutzungsrechts ist der Lizenznehmer verpflichtet, die Originaldatenträger und das gesamte schriftliche Material sowie alle Kopien der Software, einschließlich etwaiger abgeänderter Exemplare und des schriftlichen Materials zu vernichten und auf Verlangen des Lizenzgebers die vollständige Vernichtung durch notarielle eidesstattliche Erklärung zu versichern.
+
+§ 9 Änderungen und Aktualisierungen
+Der Lizenzgeber ist berechtigt, Aktualisierungen der Software nach eigenem Ermessen zu erstellen. Der Lizenznehmer hat kein Recht auf die Durchführung einer Änderung oder Aktualisierung.
+
+§ 10 Haftung
+a) Nach dem derzeitigen Stand der Technik kann bei Software das Auftreten von Programmfehlern nicht völlig ausgeschlossen werden. Gegenstand des Vertrages ist daher nur eine Software, die im Sinne der Programmbeschreibung und der Benutzungsanleitung grundsätzlich brauchbar ist.
+b) Aus den vorstehend unter lit. a) genannten Gründen übernimmt der Lizenzgeber keine Haftung für die Fehlerfreiheit der Software. Insbesondere übernimmt der Lizenzgeber keine Gewährleistung dafür, dass die Software den Anforderungen und Zwecken des Lizenznehmers genügt oder mit anderen von dem Lizenznehmer ausgewählten Programmen zusammenarbeitet. Die Verantwortung für die richtige Auswahl und die Folgen der Benutzung der Software sowie der damit beabsichtigten oder erzielten Ergebnisse trägt der Lizenznehmer. Das gleiche gilt für das die Software begleitende schriftliche Material. Ist die Software im Sinne von lit. a) grundsätzlich unbrauchbar, so hat der Lizenznehmer das Recht, den Vertrag rückgängig zu machen. Das gleiche Recht hat der Lizenzgeber, wenn die Herstellung von, im Sinne von lit. a), brauchbarer Software mit angemessenem Aufwand nicht möglich ist.
+c) Der Lizenzgeber haftet nicht für Schäden die aufgrund der Benutzung dieser Software oder der Unfähigkeit, diese Software zu verwenden, entstehen (uneingeschränkt eingeschlossen sind Schäden aus entgangenem Gewinn, Betriebsunterbrechung, Verlust von geschäftlichen Informationen oder von Daten oder aus anderem finanziellem Verlust) auch wenn der Lizenzgeber von der Möglichkeit eines solchen Schadens unterrichtet worden ist. Dies gilt nicht, soweit wegen Vorsatzes oder grober Fahrlässigkeit zwingend gehaftet wird.
+
+§ 11 Gerichtsstand
+Für diesen Vertrag gelten das Recht und die Gesetze der Bundesrepublik Deutschland. Alleiniger Gerichtsstand für alle aus dem Vertragsverhältnis mittelbar oder unmittelbar sich ergebenden Streitigkeiten ist, soweit gesetzlich zulässig, Leipzig.
+
+§ 12 Schlussbestimmungen
+Sind einzelne Bestimmungen dieses Lizenzvertrags ungültig, so bleiben die übrigen Bestimmungen wirksam. Anstelle der ungültigen Bestimmung gilt eine ihrem wirtschaftlichem Zweck möglichst nahe kommende, wirksame Bestimmung als vereinbart.
