@@ -23,7 +23,7 @@ module.exports = function () {
             app_displayname: 'Mongo Management Studio',
             useHomeDir: true,
             protocol: 'http',
-            host: '127.0.0.1',
+            // host: '127.0.0.1',
             port: 3333,
             rights: {
                 enabled: false,
